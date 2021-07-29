@@ -1,0 +1,321 @@
+{% extends 'base.html' %}
+
+{% block title%}BusBook Your Bookings{% endblock%}
+
+{% block navblock %}
+
+<style>
+
+
+
+/* USER LIST TABLE */
+.user-list tbody td > img {
+    position: relative;
+	max-width: 50px;
+	float: left;
+	margin-right: 15px;
+}
+.user-list tbody td .user-link {
+	display: block;
+	font-size: 1.25em;
+	padding-top: 3px;
+	margin-left: 60px;
+}
+.user-list tbody td .user-subhead {
+	font-size: 0.875em;
+	font-style: italic;
+}
+
+/* TABLES */
+.table {
+    border-collapse: separate;
+}
+.table-hover > tbody > tr:hover > td,
+.table-hover > tbody > tr:hover > th {
+	background-color: #eee;
+}
+.table thead > tr > th {
+	border-bottom: 1px solid #C2C2C2;
+	padding-bottom: 0;
+}
+.table tbody > tr > td {
+	font-size: 0.875em;
+	background: #f5f5f5;
+	border-top: 10px solid #fff;
+	vertical-align: middle;
+	padding: 12px 8px;
+}
+.table tbody > tr > td:first-child,
+.table thead > tr > th:first-child {
+	padding-left: 20px;
+}
+.table thead > tr > th span {
+	border-bottom: 2px solid #C2C2C2;
+	display: inline-block;
+	padding: 0 5px;
+	padding-bottom: 5px;
+	font-weight: normal;
+}
+.table thead > tr > th > a span {
+	color: #344644;
+}
+.table thead > tr > th > a span:after {
+	content: "\f0dc";
+	font-family: FontAwesome;
+	font-style: normal;
+	font-weight: normal;
+	text-decoration: inherit;
+	margin-left: 5px;
+	font-size: 0.75em;
+}
+.table thead > tr > th > a.asc span:after {
+	content: "\f0dd";
+}
+.table thead > tr > th > a.desc span:after {
+	content: "\f0de";
+}
+.table thead > tr > th > a:hover span {
+	text-decoration: none;
+	color: #2bb6a3;
+	border-color: #2bb6a3;
+}
+.table.table-hover tbody > tr > td {
+	-webkit-transition: background-color 0.15s ease-in-out 0s;
+	transition: background-color 0.15s ease-in-out 0s;
+}
+.table tbody tr td .call-type {
+	display: block;
+	font-size: 0.75em;
+	text-align: center;
+}
+.table tbody tr td .first-line {
+	line-height: 1.5;
+	font-weight: 400;
+	font-size: 1.125em;
+}
+.table tbody tr td .first-line span {
+	font-size: 0.875em;
+	color: #969696;
+	font-weight: 300;
+}
+.table tbody tr td .second-line {
+	font-size: 0.875em;
+	line-height: 1.2;
+}
+.table a.table-link {
+	margin: 0 5px;
+	font-size: 1.125em;
+}
+.table a.table-link:hover {
+	text-decoration: none;
+	color: #2aa493;
+}
+.table a.table-link.danger {
+	color: #fe635f;
+}
+.table a.table-link.danger:hover {
+	color: #dd504c;
+}
+
+.table-products tbody > tr > td {
+	background: none;
+	border: none;
+	border-bottom: 1px solid #ebebeb;
+	-webkit-transition: background-color 0.15s ease-in-out 0s;
+	transition: background-color 0.15s ease-in-out 0s;
+	position: relative;
+}
+.table-products tbody > tr:hover > td {
+	text-decoration: none;
+	background-color: #f6f6f6;
+}
+.table-products .name {
+	display: block;
+	font-weight: 600;
+	padding-bottom: 7px;
+}
+.table-products .price {
+	display: block;
+	text-decoration: none;
+	width: 50%;
+	float: left;
+	font-size: 0.875em;
+}
+.table-products .price > i {
+	color: #8dc859;
+}
+.table-products .warranty {
+	display: block;
+	text-decoration: none;
+	width: 50%;
+	float: left;
+	font-size: 0.875em;
+}
+.table-products .warranty > i {
+	color: #f1c40f;
+}
+.table tbody > tr.table-line-fb > td {
+	background-color: #9daccb;
+	color: #262525;
+}
+.table tbody > tr.table-line-twitter > td {
+	background-color: #9fccff;
+	color: #262525;
+}
+.table tbody > tr.table-line-plus > td {
+	background-color: #eea59c;
+	color: #262525;
+}
+.table-stats .status-social-icon {
+	font-size: 1.9em;
+	vertical-align: bottom;
+}
+.table-stats .table-line-fb .status-social-icon {
+	color: #556484;
+}
+.table-stats .table-line-twitter .status-social-icon {
+	color: #5885b8;
+}
+.table-stats .table-line-plus .status-social-icon {
+	color: #a75d54;
+}
+</style>
+
+
+
+<div class="container mt-3">
+    <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
+    <h3 class="my-3 shadow p-3">Your bookings</h3>
+    {% for message in messages %}
+{% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+
+<div class="col-lg-6 mx-auto">
+   
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+        <strong></strong>{{message}} 
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+   
+
+</div>
+
+
+
+            
+{% endif %}
+
+{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR%}
+
+<div class="col-lg-6 mx-auto">
+        <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+            <strong></strong> {{message}} 
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+    </div>
+
+
+
+
+{% endif %}
+{% endfor %}
+
+<div class="row">
+	<div class="col-lg-12">
+		<div class="main-box clearfix">
+			<div class="table-responsive">
+				<table class="table user-list">
+					<thead>
+						<tr>
+							<th><span>Bus</span></th>
+							<th><span>Route</span></th>
+							<th class="text-center"><span>Dep. Time</span></th>
+							<th><span>Dep. Date</span></th>
+							<th><span>Booked Time</span></th>
+							<th><span>Seat</span></th>
+                            <th><span>Status</span></th>
+
+
+
+							<th>&nbsp;</th>
+						</tr>
+					</thead>
+					<tbody>
+                        {% for i in booking%}
+						<tr>
+							<td>
+								<img src="{{i.route.bus.photo.url}}" alt="">
+								<a href="#" class="user-link">{{i.route.bus}}</a>
+								<span class="user-subhead">{{i.route.bus.company.name}}</span>
+							</td>
+							<td>
+								{{i.route}}
+							</td>
+							<td class="text-center">
+								<span class="label label-default">{{i.route.time}}</span>
+							</td>
+							<td>
+								<span class="label label-default">{{i.route.date}}</span>
+							</td>
+                            <td>
+								<span class="label label-default">{{i.date_created}}</span>
+							</td>
+                            <td>
+								<span class="label label-default">{{i.seat}}</span>
+							</td>
+                            {% if i.cancelled%}
+                            <td>
+								<span class="label label-default">Cancelled</span>
+							</td>
+                            {%else%}
+                            <td>
+								<span class="label label-default">Going</span>
+							</td>
+                            {%endif%}
+							<td style="width: 20%;">
+                                <form method="POST">
+                                    {%csrf_token%}
+								<a href="{% url 'booking:route' i.route.id %}" class="table-link text-decoration-none">
+                                    <i>View</i>
+									<span class="fa-stack">
+										<i class="fa fa-square fa-stack-2x"></i>
+										<i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+									</span>
+								</a>
+
+                                    <input type="text" name="reservation" hidden value="{{i.id}}">
+								
+                                    {% if i.cancelled%}
+                                    <button   class="btn btn-outline-danger btn-sm disabled">
+										<i class="fa fa-times-circle "></i>
+                                    <i>Cancel</i>
+								    </button>
+                                    {%else%}
+                                    <button  type="submit" onclick="return confirm('Are you sure want to cancel the trip?')" class="btn btn-outline-danger btn-sm">
+										<i class="fa fa-times-circle "></i>
+                                    <i>Cancel</i>
+								    </button>
+                                    {%endif%}
+                                
+
+                                </form>
+                               
+							</td>
+						</tr>
+                        {%empty%}
+                        <h3 class="text-center my-3">No bookings yet.</h3>
+                        {% endfor %}
+						
+					</tbody>
+				</table>
+			</div>
+		
+		</div>
+	</div>
+</div>
+
+
+</div>
+
+
+
+{%endblock%}

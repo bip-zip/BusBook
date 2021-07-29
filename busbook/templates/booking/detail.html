@@ -1,0 +1,742 @@
+{% extends 'base.html' %}
+
+{% block title%}BusBook {{route.destination}}{% endblock%}
+
+{% block navblock %}
+{% load isbook %}
+
+<style>
+    body{
+        background-color: rgb(244, 245, 245);
+    }
+</style>
+{% for message in messages %}
+{% if message.level == DEFAULT_MESSAGE_LEVELS.SUCCESS %}
+
+<div class="col-lg-6 mx-auto">
+   
+    <div class="alert alert-success alert-dismissible fade show text-center" role="alert">
+        <strong></strong>{{message}} 😀
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+      </div>
+   
+
+</div>
+
+
+
+            
+{% endif %}
+
+{% if message.level == DEFAULT_MESSAGE_LEVELS.ERROR%}
+
+<div class="col-lg-6 mx-auto">
+        <div class="alert alert-danger alert-dismissible fade show text-center" role="alert">
+            <strong></strong> {{message}} 😶
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+    </div>
+
+
+
+
+{% endif %}
+{% endfor %}
+
+
+<div class="container mt-3 ">
+    <h3 class="text-center p-3 shadow-sm">{{route.source|capfirst}}-{{route.destination|capfirst}}</h3>
+    <div class="row col-lg-12 mx-auto">
+        <div class="col-lg-6 me-3 p-3  shadow">
+            <img src="{{route.bus.photo.url}}" height="360" width="520" alt="pic">
+        </div>
+        <div class="col-lg-5 px-5 py-3 shadow">
+            <h5 class="text-center fw-light">Route details</h5><hr>
+            <p class="fw-light">Bus No.: <b>{{route.bus.bus_no}}</b></p>
+            <p class="fw-light">Company: <b>{{route.bus.company.name}}</b></p>
+
+            <p class="fw-light">Route: <b>{{route.source|capfirst}}-{{route.destination|capfirst}}</b></p>
+            <p class="fw-light">Depature date: <b>{{route.date}}</b></p>
+            <p class="fw-light">Depature Time: <b>{{route.time}}</b></p>
+            <p class="fw-light">Fare: Rs.<b> {{route.fare}}</b></p>
+            <p class="fw-light">Available seats: <b> {{route.available_seats_no}}/{{route.bus.totalseat}}</b></p>
+            <p class="fw-light">Bus Contact:<b> {{route.bus.phone}}</b></p>
+            {% if user.is_authenticated %}
+            <div class="offset-5">
+                <button type="button" class="btn btn-primary btn-sm offset-5" data-bs-toggle="modal" data-bs-target="#exampleModal">Book now</button>
+            </div>
+            {%else%}
+            <div class="offset-5">
+                <a href="{% url 'bususer:login'%}" class="btn btn-primary btn-sm offset-5 " >Book now</a>
+            </div>
+            {%endif%}
+        </div>
+    </div>
+    <div class="mt-3 shadow-sm bg-white mb-4">
+        <h4 class="text-center fw-light p-4">Available seats</h4>
+       <!-- seats -->
+       <div class="container col-md-8 p-4 border rounded-3">
+        <div class="row">
+            <div class="col-md-1">
+               
+                
+            </div>
+            <div class="col-md-1">
+                <div class="boxes border-3 bg-dark rounded my-2 py-0">
+                    <h6 class="text text-center text-white">D</h6>
+                </div>
+            </div>
+            <div class="col-md-1">
+               
+            </div>
+            {% if route.id|isbooked:"A1" %}
+
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">A1</h6>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">A1</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:"A2" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">A2</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">A2</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:"A3" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">A3</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">A3</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            
+            {% if route.id|isbooked:"A4" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">A4</h6>
+                </div>
+            </div>
+
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">A4</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:"A5" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">A5</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">A5</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:"A6" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">A6</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">A6</h6>
+                </div>
+            </div>
+            {%endif%}
+
+
+            {% if route.id|isbooked:"A7" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">A7</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">A7</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:"A8" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">A8</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">A8</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:"A9" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">A9</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">A9</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            
+
+
+          
+            
+            
+            
+            
+            <div class="col-md-1">
+              
+            </div>
+            <div class="col-md-1">
+                
+            </div>
+            <div class="col-md-1">
+                
+            </div>
+
+            {% if route.id|isbooked:"B1" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">B1</h6>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">B1</h6>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if route.id|isbooked:"B2" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">B2</h6>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">B2</h6>
+                </div>
+            </div>
+            {% endif %}
+            
+          
+
+            {% if route.id|isbooked:"B3" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">B3</h6>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">B3</h6>
+                </div>
+            </div>
+            {% endif %}
+
+
+            {% if route.id|isbooked:"B4" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">B4</h6>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">B4</h6>
+                </div>
+            </div>
+            {% endif %}
+
+
+            {% if route.id|isbooked:"B5" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">B5</h6>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">B5</h6>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if route.id|isbooked:"B6" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">B6</h6>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">B6</h6>
+                </div>
+            </div>
+            {% endif %}
+
+            {% if route.id|isbooked:"B7" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">B7</h6>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">B7</h6>
+                </div>
+            </div>
+            {% endif %}
+
+
+
+
+            {% if route.id|isbooked:"B8" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">B8</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">B8</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:"B9" %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">B9</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">B9</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            
+            
+            
+            
+           
+
+           
+            
+           
+            <!-- new seat -->
+            {% if route.id|isbooked:"C1" %}
+
+            <div class="col-md-12">
+                <div class="row d-flex justify-content-end">
+                    <div class="col-md-1">
+                        <div class="boxes border bg-danger rounded my-2 py-0">
+                            <h6 class="text text-center">C1</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-12">
+                <div class="row d-flex justify-content-end">
+                    <div class="col-md-1">
+                        <div class="boxes border bg-success rounded my-2 py-0">
+                            <h6 class="text text-center">C1</h6>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {%endif%}
+            <!-- new seat close -->
+            <div class="col-md-1">
+               
+            </div>
+            <div class="col-md-1">
+               
+            </div>
+            <div class="col-md-1">
+               
+            </div>
+            {% if route.id|isbooked:'D1' %}
+
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">D1</h6>
+                </div>
+            </div>
+            {% else %}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">D1</h6>
+                </div>
+            </div>
+
+            {%endif%}
+
+
+            {% if route.id|isbooked:'D2' %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">D2</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">D2</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:'D3' %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">D3</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">D3</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:'D4' %}
+
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">D4</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">D4</h6>
+                </div>
+            </div>
+            {%endif%}
+            {% if route.id|isbooked:'D5' %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">D5</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">D5</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:'D6' %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">D6</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">D6</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:'D7' %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">D7</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">D7</h6>
+                </div>
+            </div>
+            {%endif%}
+            
+            {% if route.id|isbooked:'D8' %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">D8</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">D8</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:'D9' %}
+        
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">D9</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">D9</h6>
+                </div>
+            </div>
+            {%endif%}
+            <div class="col-md-1">
+               
+            </div>
+            <div class="col-md-1">
+               
+            </div>
+            <div class="col-md-1">
+               
+            </div>
+            {% if route.id|isbooked:'E1' %}
+
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">E1</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">E1</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:'E2' %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">E2</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">E2</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:'E3' %}
+
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">E3</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">E3</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:'E4' %}
+            
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">E4</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">E4</h6>
+                </div>
+            </div>
+            {%endif%}
+            {% if route.id|isbooked:'E5' %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">E5</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">E5</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:'E6' %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">E6</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">E6</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:'E7' %}
+
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">E7</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">E7</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:'E8' %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">E8</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">E8</h6>
+                </div>
+            </div>
+            {%endif%}
+
+            {% if route.id|isbooked:'E9' %}
+            <div class="col-md-1">
+                <div class="boxes border bg-danger rounded my-2 py-0">
+                    <h6 class="text text-center">E9</h6>
+                </div>
+            </div>
+            {%else%}
+            <div class="col-md-1">
+                <div class="boxes border bg-success rounded my-2 py-0">
+                    <h6 class="text text-center">E9</h6>
+                </div>
+            </div>
+            {%endif%}
+        </div>
+    </div>
+       <!-- endseat -->
+    <div class="my-3 p-3 text-center">
+       <i class="fas fa-square text-success"></i> <i>Available </i><br>
+       <i class="fas fa-square text-danger"></i> <i>Reserved </i>
+
+
+    </div>       
+
+    </div>
+
+
+</div>
+
+
+
+  
+  <!-- Modal -->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">{{route.source|capfirst}}-{{route.destination|capfirst}}</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form method="POST">
+            {% csrf_token %}
+        <div class="modal-body">
+            
+                <div class="mb-3">
+                  <label for="exampleInputEmail1" class="form-label">Name</label>
+                  <input type="text" value="{{request.user.first_name}} {{request.user.last_name}}" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" required>
+
+                </div>
+                <div class="mb-3">
+                  <label for="exampleInputPassword1"  class="form-label">Phone</label>
+                  <input type="text" class="form-control" name='phone' id="exampleInputPassword1" required>
+                </div>
+                
+
+                <div class="mb-3">
+                    <div id="emailHelp" class="form-text">Please, see seat diagram for proper details.</div>
+                  <select class="form-select" name="seat_id" aria-label="Default select example" required>
+                    <option disabled selected value="">Select seat</option>
+                    {% for j in route.available_seats %}
+                    <option value="{{j.seat_id}}">{{j.seat_id}}</option>
+                    {% endfor %}
+                    
+                  </select>
+                </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-danger btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-primary btn-sm" onclick="return confirm('Are you sure that was the seat you want?')">Confirm book</button>
+        </div>
+    </form>
+      </div>
+    </div>
+  </div>
+
+{% endblock %}
